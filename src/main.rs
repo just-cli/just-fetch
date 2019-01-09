@@ -11,19 +11,20 @@ struct Opt {
 
 fn main() {
     use self::fetch::Fetch;
-    use just_core::blueprint::Blueprints;
     use just_core::kernel::Kernel;
+    use just_core::manifest::ManifestFiles;
 
     let opt: Opt = Opt::from_args();
-    if let Some(pkg) = opt.package {
-        if let Some(blueprint) = Blueprints::scan().load(&pkg) {
-            let mut kernel = Kernel::load();
-            let mut fetch = Fetch::new(&blueprint, &mut kernel.versions);
+    if let Some(pkg_name) = opt.package {
+        let mut kernel = Kernel::load();
+
+        if let Some(manifest) = ManifestFiles::scan(&kernel).load_manifest(&pkg_name) {
+            let mut fetch = Fetch::new(&manifest, &mut kernel.versions);
             if let Err(e) = fetch.fetch_all_versions() {
                 println!("Error: {:?}", e);
             }
         } else {
-            println!("Package {:?} does not exists", pkg);
+            println!("Package {:?} does not exists", pkg_name);
         }
     }
 }
