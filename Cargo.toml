@@ -9,3 +9,6 @@ just-core = { git = "https://github.com/just-cli/just-core" }
 just-versions = { git = "https://github.com/just-cli/just-versions" }
 log = "0.4.6"
 structopt = "0.2.14"
+
+[features]
+lib = []
