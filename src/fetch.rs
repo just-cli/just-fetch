@@ -33,6 +33,7 @@ impl<'a> Fetch<'a> {
         }
     }
 
+    #[cfg(crate_type = "lib")]
     pub fn needs_fetch(&self) -> bool {
         use log::debug;
 
